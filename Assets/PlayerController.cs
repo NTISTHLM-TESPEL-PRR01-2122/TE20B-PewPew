@@ -13,6 +13,14 @@ public class PlayerController : MonoBehaviour
   [SerializeField]
   Transform gunPosition;
 
+
+  float cooldownValue = 0;
+
+  [SerializeField]
+  float cooldownMax = 1;
+
+  bool fire1Released = true;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -32,11 +40,21 @@ public class PlayerController : MonoBehaviour
 
     transform.Translate(movement);
 
-    if (Input.GetAxisRaw("Fire1") > 0)
+
+
+    if (cooldownValue > 0)
     {
-      Instantiate(boltPrefab, gunPosition.position, Quaternion.identity);
+      cooldownValue -= Time.deltaTime;
     }
 
+    if (Input.GetAxisRaw("Fire1") > 0 && cooldownValue <= 0 && fire1Released)
+    {
+      Instantiate(boltPrefab, gunPosition.position, Quaternion.identity);
+      cooldownValue = cooldownMax;
+    }
+
+
+    fire1Released = ! (Input.GetAxisRaw("Fire1") > 0);
 
   }
 }
