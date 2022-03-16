@@ -7,6 +7,9 @@ public class EnemyController : MonoBehaviour
   [SerializeField]
   float speed = 2;
 
+  [SerializeField]
+  GameObject explosionPrefab;
+
   // Update is called once per frame
   void Update()
   {
@@ -20,4 +23,14 @@ public class EnemyController : MonoBehaviour
     }
 
   }
+
+  void OnCollisionEnter2D(Collision2D other)
+  {
+    if (other.gameObject.tag == "Bullet")
+    {
+      Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+      Destroy(this.gameObject);
+    }
+  }
+
 }

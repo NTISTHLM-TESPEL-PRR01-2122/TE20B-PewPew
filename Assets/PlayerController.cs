@@ -36,9 +36,16 @@ public class PlayerController : MonoBehaviour
     float axisY = Input.GetAxisRaw("Vertical");
 
     // Flytta baserat på input
-    Vector2 movement = new Vector2(axisX, axisY) * Time.deltaTime * speed;
+    Vector2 movementX = new Vector2(axisX, 0) * Time.deltaTime * speed;
+    Vector2 movementY = new Vector2(0, axisY) * Time.deltaTime * speed;
 
-    transform.Translate(movement);
+    transform.Translate(movementX + movementY);
+
+    if (Mathf.Abs(transform.position.x) > 9)
+    {
+      transform.Translate(-movementX);
+    }
+
 
 
 
